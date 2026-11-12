@@ -1,5 +1,17 @@
 # @shopware/helpers
 
+## 1.9.0
+
+### Minor Changes
+
+- [#2668](https://github.com/shopware/frontends/pull/2668) [`2202e1c`](https://github.com/shopware/frontends/commit/2202e1cec2b7d72260ed115940386c6793523676) Thanks [@mateuszfl](https://github.com/mateuszfl)! - Support SEO URLs of headless (API type) sales channels. Since shopware/shopware#17991 headless sales channels persist their SEO URLs against the `store-api.*` route family (`store-api.product.detail`, `store-api.category.detail`, `store-api.landing-page.detail`). `useNavigationSearch().resolvePath()` now maps those route names to their `frontend.*` equivalents, so page resolution works unchanged on a headless sales channel. The new `getFrontendRouteName` helper in `@shopware/helpers` exposes the same mapping for custom resolvers.
+
+- [#2851](https://github.com/shopware/frontends/pull/2851) [`43a035f`](https://github.com/shopware/frontends/commit/43a035fa60a73f554ac4de9da7abd6fce9892288) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Add three helpers that were previously only available inside composables:
+
+  - `getListingFiltersQuery(filters)` turns listing criteria into URL query params. Arrays are joined with `|`, and empty arrays and falsy values are left out. It is what `useListing().filtersToQuery` does, now usable outside a component.
+  - `getCmsMeta(entity)` returns the translated `title`, `metaTitle`, `metaDescription` and `keywords` of a category, product or landing page, with an empty string for a missing field.
+  - `getTotalPages(total, limit)` returns the page count, or `0` when `limit` is not a positive number.
+
 ## 1.8.0
 
 ### Minor Changes

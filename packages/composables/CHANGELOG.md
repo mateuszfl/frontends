@@ -1,5 +1,38 @@
 # @shopware/composables
 
+## 1.15.0
+
+### Minor Changes
+
+- [#2850](https://github.com/shopware/frontends/pull/2850) [`5374dfd`](https://github.com/shopware/frontends/commit/5374dfd32614e264028b0a83d060919427307f3d) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Deprecate API that has no effect, to be removed in the next major release:
+
+  - `createShopwareContext`: the `enableDevtools` option and the `state` property of the returned plugin
+  - `useProductAssociations`: the `associationContext` option and the `method` and `searchParams` params of `loadAssociations`. Both `options` and the `loadAssociations` params are now optional, so call `loadAssociations()`
+  - `useProductConfigurator().isLoadingOptions` and `useSyncWishlist().isLoading`, which are never updated
+  - `getDefaultApiParams`, which already logged a deprecation error, now carries the `@deprecated` tag as well
+
+  Also removes commented-out code and the unused, unexported `registerShopwareDevtools` and `useCmsElementProductBox`, which drops the undeclared `@vue/devtools-api` import. No runtime behaviour changes.
+
+- [#2720](https://github.com/shopware/frontends/pull/2720) [`14fb094`](https://github.com/shopware/frontends/commit/14fb0946f8e7d12720b28cf9c6ccac05a4f72789) Thanks [@mkucmus](https://github.com/mkucmus)! - Added `useCacheableRead().invokeRead`. It uses the cacheable GET route only for a fresh default guest. That GET has no `sw-context-token`. Other sessions stay POST. Branching on `useShopwareContext().cacheableReads` is deprecated. Keep reads that `invokeRead` does not take on POST. New `createShopwareContext` option: `ssrWithoutUserContext`. A category read over GET now sends its listing params as plain query params, so `limit` is no longer dropped.
+
+- [#2668](https://github.com/shopware/frontends/pull/2668) [`2202e1c`](https://github.com/shopware/frontends/commit/2202e1cec2b7d72260ed115940386c6793523676) Thanks [@mateuszfl](https://github.com/mateuszfl)! - Support SEO URLs of headless (API type) sales channels. Since shopware/shopware#17991 headless sales channels persist their SEO URLs against the `store-api.*` route family (`store-api.product.detail`, `store-api.category.detail`, `store-api.landing-page.detail`). `useNavigationSearch().resolvePath()` now maps those route names to their `frontend.*` equivalents, so page resolution works unchanged on a headless sales channel. The new `getFrontendRouteName` helper in `@shopware/helpers` exposes the same mapping for custom resolvers.
+
+### Patch Changes
+
+- [#2851](https://github.com/shopware/frontends/pull/2851) [`43a035f`](https://github.com/shopware/frontends/commit/43a035fa60a73f554ac4de9da7abd6fce9892288) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - `useListing().filtersToQuery`, `useCmsMeta` and the page counts of `useListing`, `useWishlist` and `useCustomerOrders` now use the new `getListingFiltersQuery`, `getCmsMeta` and `getTotalPages` helpers from `@shopware/helpers`. The only behaviour change: with a limit of `0` or less, the page count is now `0` instead of `Infinity` or `NaN`.
+
+  Deprecated, to be removed in the next major release:
+
+  - `useListing().filtersToQuery`: use `getListingFiltersQuery` from `@shopware/helpers`
+  - `useCmsMeta`: use `getCmsMeta` from `@shopware/helpers`
+
+- [#2791](https://github.com/shopware/frontends/pull/2791) [`4f0f33b`](https://github.com/shopware/frontends/commit/4f0f33b9fcb66c5a6bacf86400fa6d82f68e064f) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - Point the README and JSDoc documentation links at the Frontends Recipes that replaced the redirected guides
+
+- [#2849](https://github.com/shopware/frontends/pull/2849) [`037ffa9`](https://github.com/shopware/frontends/commit/037ffa97e3fdeec3a7dc896cb6a5b401e4b5f481) Thanks [@mdanilowicz](https://github.com/mdanilowicz)! - `useWishlist().mergeWishlistProducts()` now clears the local (localStorage) wishlist after merging it into the customer's wishlist. Before, it cleared the API wishlist instead: the local items stayed and were merged again on every login, and products the sync store still held from earlier in the session were removed from the customer's wishlist on the server.
+- Updated dependencies [[`2202e1c`](https://github.com/shopware/frontends/commit/2202e1cec2b7d72260ed115940386c6793523676), [`43a035f`](https://github.com/shopware/frontends/commit/43a035fa60a73f554ac4de9da7abd6fce9892288), [`14fb094`](https://github.com/shopware/frontends/commit/14fb0946f8e7d12720b28cf9c6ccac05a4f72789)]:
+  - @shopware/helpers@1.9.0
+  - @shopware/api-client@1.8.0
+
 ## 1.14.0
 
 ### Minor Changes
